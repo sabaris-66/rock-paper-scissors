@@ -14,45 +14,59 @@ function getComputerChoice(){
 // get single round winners
 function roundWinners(playerSelection, computerSelection){
     if(playerSelection === computerSelection){
-        console.log(`Its a tie, you both choose ${playerSelection}`);
+        scoreCard.textContent = ` ${playerScore} : ${computerScore} \nIts a tie, you both choose ${playerSelection}`;
     }
     else if((playerSelection === "rock" && computerSelection === "scissors") || (playerSelection === "scissors" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "rock")){
         playerScore++; 
-        console.log(playerScore);
-        console.log(`You Win!, you choose ${playerSelection} and the computer choose ${computerSelection}`);
-        
+        scoreCard.textContent = `${playerScore} : ${computerScore} \nYou Win!, you choose ${playerSelection} and the computer choose ${computerSelection}`;        
     }
     else{
         computerScore++;
-        console.log(computerScore);
-        console.log(`You Lose!, you choose ${playerSelection} and the computer choose ${computerSelection}`);
-        
+        scoreCard.textContent = `${playerScore} : ${computerScore} \nYou Lost!, you choose ${playerSelection} and the computer choose ${computerSelection}`;
     }
 }
 
-function fiveRounds(){
-    let playerSelection = "", computerSelection = "";
-    let game = 5;
-    while(game){
-        playerSelection = getPlayerChoice();
-        computerSelection = getComputerChoice();
-        roundWinners(playerSelection, computerSelection);
-        game--;
+function fivePoints(){
+    computerSelection = getComputerChoice();
+    roundWinners(playerSelection, computerSelection);
+    if(playerScore === 5){
+        scoreCard.textContent = `Player Won!!!, ${playerScore}:${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
     }
-    if(playerScore > computerScore){
-        console.log(`Player Wins ${playerScore}:${computerScore}`);
-    }
-    else if(playerScore < computerScore){
-        console.log(`Player Lose ${playerScore}:${computerScore}`);
-    }
-    else{
-        console.log(`Match tie, Score ${playerScore}:${computerScore}`);
+    else if(computerScore === 5){
+        scoreCard.textContent = `You lost!!!, ${playerScore}:${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
     }
 }
 
 //call main function
 let playerScore = 0;
 let computerScore = 0;
-fiveRounds();
+let playerSelection, computerSelection;
+
+// using dom
+const body = document.querySelector('body')
+const rock = document.querySelector('.rock');
+const paper = document.querySelector('.paper');
+const scissors = document.querySelector('.scissors');
+const scoreCard = document.createElement('div');
+body.appendChild(scoreCard);
+
+rock.addEventListener('click', () => {
+    playerSelection = rock.value;
+    fivePoints();
+})
+
+paper.addEventListener('click', () => {
+    playerSelection = paper.value;
+    fivePoints();
+})
+
+scissors.addEventListener('click', () => {
+    playerSelection = scissors.value;
+    fivePoints();
+})
 
 
